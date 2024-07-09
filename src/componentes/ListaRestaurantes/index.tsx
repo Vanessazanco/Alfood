@@ -10,6 +10,19 @@ const ListaRestaurantes = () => {
 
   const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([])
   const [proxiomaPagina, setProximaPagina] = useState('')
+  const [paginaAnterior, setPaginaAnterior] = useState('')
+
+  const carregarDados = (url: string) => {
+    axios.get<IPaginacao<IRestaurante>>(url)
+      .then(resposta => {
+        setRestaurantes(resposta.data.results)
+        setProximaPagina(resposta.data.next)
+        setPaginaAnterior(resposta.data.previous)
+      })
+      .catch(erro => {
+        console.log(erro)
+      })
+  }
 
   useEffect(() => {
     //obter restaurantes
@@ -17,6 +30,7 @@ const ListaRestaurantes = () => {
       .then(resposta => {
         setRestaurantes(resposta.data.results)
         setProximaPagina(resposta.data.next)
+        setPaginaAnterior(resposta.data.previous)
       })
       .catch(erro => {
         console.log(erro)
@@ -36,6 +50,9 @@ const ListaRestaurantes = () => {
   return (<section className={style.ListaRestaurantes}>
     <h1>Os restaurantes mais <em>bacanas</em>!</h1>
     {restaurantes?.map(item => <Restaurante restaurante={item} key={item.id} />)}
+    {<button onClick={() => carregarDados(paginaAnterior)} disabled={!paginaAnterior}>
+      Página Anterior
+    </button>}
     {proxiomaPagina && <button onClick={verMais}>
       ver mais
     </button>}
