@@ -20,15 +20,6 @@ const FormularioPrato = () => {
 
   const [imagem,setImagem] =useState<File | null > (null)
 
-  const parametros = useParams()
-  useEffect(() => {
-    if (parametros.id) {
-      http.get<IPrato>(`pratos/${parametros.id}/`)
-        .then(resposta => setNomePrato(resposta.data.nome))
-    }
-  }, [parametros])
-
-
   useEffect(() => {
     http.get<{ tags: ITag[] }>('tags/')
       .then(resposta => setTags(resposta.data.tags))
@@ -66,24 +57,14 @@ const FormularioPrato = () => {
       data:formData
     })
 
-      .then(resposta =>alert('Prato cadastrado com sucesso'))
-
-
-   {/* if (parametros.id) {
-      http.put(`pratos/${parametros.id}/`, {
-        nome: nomePrato
-      })
-        .then(() => {
-          alert('Prato atualizado com sucesso!')
-        })
-    } else {
-      http.post('pratos/', {
-        nome: nomePrato
-      })
-        .then(() => {
-          alert('Prato cadastrado com sucesso!')
-        })
-   }  */}
+      .then(() => {
+        setNomePrato('')
+        setDescricao('')
+        setTag('')
+        setRestaurante('')        
+        alert('Prato cadastrado com sucesso')
+      })        
+      .catch(erro=>console.log(erro))
 
   }
   return (
@@ -114,7 +95,7 @@ const FormularioPrato = () => {
         <FormControl margin="dense" fullWidth >
           <InputLabel id="select-tag">Tag</InputLabel>
           <Select labelId="select-tag " value={tag} onChange={evento =>setTag(evento.target.value)}>
-            {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
+            {tags.map(tag => <MenuItem key={tag.id} value={tag.value}>
               {tag.value}
             </MenuItem>)}
           </Select>

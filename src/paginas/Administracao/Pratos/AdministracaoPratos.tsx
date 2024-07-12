@@ -7,6 +7,7 @@ import IPrato from "../../../interfaces/IPrato"
 const AdministracaoPratos = () => {
 
   const [pratos, setPratos] = useState<IPrato[]>([])
+  
   useEffect(() => {
     http.get<IPrato[]>('pratos/')
       .then(resposta => setPratos(resposta.data))
