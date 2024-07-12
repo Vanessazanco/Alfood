@@ -14,21 +14,21 @@ const FormularioPrato = () => {
     }
   }, [parametros])
 
-  const [nomeRestaurante, setNomePrato] = useState('')
+  const [nomePrato, setNomePrato] = useState('')
 
   const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
     if (parametros.id) {
       http.put(`pratos/${parametros.id}/`, {
-        nome: nomeRestaurante
+        nome: nomePrato
       })
         .then(() => {
           alert('Prato atualizado com sucesso!')
         })
     } else {
       http.post('pratos/', {
-        nome: nomeRestaurante
+        nome: nomePrato
       })
         .then(() => {
           alert('Prato cadastrado com sucesso!')
@@ -39,13 +39,13 @@ const FormularioPrato = () => {
   return (
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
-        <Typography component="h1" variant="h6">Formulário de Restaurantes</Typography>
+        <Typography component="h1" variant="h6">Formulário de Prato</Typography>
         <Box component="form" sx={{ width: '100%' }} onSubmit={aoSubmeterForm} >
           <TextField
-            value={nomeRestaurante}
+            value={nomePrato}
             onChange={evento => setNomePrato(evento.target.value)}
             id="outlined-basic"
-            label="Nome do Restaurante"
+            label="Nome do Prato"
             variant="outlined"
             fullWidth
             required
