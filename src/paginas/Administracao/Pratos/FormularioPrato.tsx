@@ -1,8 +1,6 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
 import http from "../../../Http"
-import IPrato from "../../../interfaces/IPrato"
 import ITag from "../../../interfaces/ITag"
 import IRestaurante from "../../../interfaces/IRestaurante"
 
