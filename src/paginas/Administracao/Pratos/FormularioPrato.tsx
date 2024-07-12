@@ -4,14 +4,21 @@ import { useParams } from "react-router-dom"
 import http from "../../../Http"
 import IPrato from "../../../interfaces/IPrato"
 import ITag from "../../../interfaces/ITag"
+import IRestaurante from "../../../interfaces/IRestaurante"
 
 
 const FormularioPrato = () => {
 
   const [nomePrato, setNomePrato] = useState('')
   const [descricao, setDescricao] = useState('')
+
   const [tags, setTags] = useState<ITag[]>([])
   const [tag,setTag]=useState('')
+
+  const [restaurantes,setRestaurantes]=useState<IRestaurante[]>([])
+  const [restaurante, setRestaurante] =useState('')
+
+  const [imagem,setImagem] =useState<File | null > (null)
 
   const parametros = useParams()
   useEffect(() => {
@@ -25,9 +32,17 @@ const FormularioPrato = () => {
   useEffect(() => {
     http.get<{ tags: ITag[] }>('tags/')
       .then(resposta => setTags(resposta.data.tags))
+      http.get<IRestaurante[]>('restaurantes/')
+      .then(resposta=>setRestaurantes(resposta.data))
   }, [])
 
-
+  const selecionarArquivo = (evento :React.ChangeEvent<HTMLInputElement>) =>{
+    if (evento.target.files?.length) {
+      setImagem(evento.target.files[0])
+    } else {
+      setImagem(null)
+    }
+  }
 
   const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
@@ -82,6 +97,18 @@ const FormularioPrato = () => {
             </MenuItem>)}
           </Select>
         </FormControl>
+
+        <FormControl margin="dense" fullWidth >
+          <InputLabel id="select-restaurante">Restaurante</InputLabel>
+          <Select labelId="select-restaurante " value={restaurante} onChange={evento =>setRestaurante(evento.target.value)}>
+            {restaurantes.map(restaurante => <MenuItem key={restaurante.id} value={restaurante.id}>
+              {restaurante.nome}
+            </MenuItem>)}
+          </Select>
+        </FormControl>
+
+        <input type="file" onChange={selecionarArquivo} />
+
         <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="contained" color="success">Salvar</Button>
       </Box>
     </Box>
