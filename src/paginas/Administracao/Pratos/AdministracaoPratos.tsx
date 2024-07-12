@@ -31,6 +31,15 @@ const AdministracaoPratos = () => {
               Nome
             </TableCell>
             <TableCell>
+              Descrição
+            </TableCell>
+            <TableCell>
+              Tag
+            </TableCell>
+            <TableCell>
+              Imagem
+            </TableCell>
+            <TableCell>
               Editar
             </TableCell>
             <TableCell>
@@ -42,6 +51,15 @@ const AdministracaoPratos = () => {
           {pratos.map(prato => <TableRow key={prato.id}>
             <TableCell>
               {prato.nome}
+            </TableCell>
+            <TableCell>
+              {prato.descricao}
+            </TableCell>
+            <TableCell>
+              {prato.tag}
+            </TableCell>
+            <TableCell>
+              [<a href={prato.imagem} target="blank" rel="noreferrer"> Ver imagem</a>]
             </TableCell>
             <TableCell>
               [<Link to={`/admin/pratos/${prato.id}`}>Editar</Link>]
