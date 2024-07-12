@@ -47,7 +47,29 @@ const FormularioPrato = () => {
   const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
-    if (parametros.id) {
+    const formData = new FormData();
+    formData.append('nome',nomePrato)
+    formData.append('tag',tag)
+    formData.append('descricao',descricao)
+    formData.append('restaurante',restaurante)
+    
+    if(imagem){
+      formData.append('imagem',imagem)
+    }
+   
+    http.request({
+      url:'pratos/',
+      method:' POST',
+      headers:{
+        'Content-Type':'multiparty/form-data'
+      },
+      data:formData
+    })
+
+      .then(resposta =>alert('Prato cadastrado com sucesso'))
+
+
+   {/* if (parametros.id) {
       http.put(`pratos/${parametros.id}/`, {
         nome: nomePrato
       })
@@ -61,7 +83,7 @@ const FormularioPrato = () => {
         .then(() => {
           alert('Prato cadastrado com sucesso!')
         })
-    }
+   }  */}
 
   }
   return (
